@@ -6,7 +6,7 @@ AWS Signature Version 4 signing for lowhaio
 ## Installation
 
 ```bash
-pip install lowhaio_aws_sigv4
+pip install lowhaio lowhaio_aws_sigv4
 ```
 
 

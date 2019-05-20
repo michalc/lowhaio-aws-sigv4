@@ -3,9 +3,16 @@ import hashlib
 import hmac
 import urllib.parse
 
-from lowhaio import (
-    EmptyAsyncIterator,
-)
+
+class EmptyAsyncIterator():
+
+    __slots__ = ()
+
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        raise StopAsyncIteration()
 
 
 def signed(request, credentials, service, region):

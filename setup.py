@@ -19,9 +19,6 @@ setuptools.setup(
         'lowhaio_aws_sigv4',
     ],
     python_requires='>=3.6.0',
-    install_requires=[
-        'lowhaio',
-    ],
     test_suite='test',
     tests_require=[
         'lowhaio~=0.0.54',
