@@ -8,7 +8,7 @@ def long_description():
 
 setuptools.setup(
     name='lowhaio_aws_sigv4',
-    version='0.0.3',
+    version='0.0.4',
     author='Michal Charemza',
     author_email='michal@charemza.name',
     description='AWS Signature Version 4 signing for lowhaio',
