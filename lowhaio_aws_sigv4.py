@@ -4,21 +4,15 @@ import hmac
 import urllib.parse
 
 
-class EmptyAsyncIterator():
-
-    __slots__ = ()
-
-    def __aiter__(self):
-        return self
-
-    async def __anext__(self):
-        raise StopAsyncIteration()
+async def empty_async_iterator():
+    while False:
+        yield
 
 
 def signed(request, credentials, service, region):
 
     async def _signed(method, url, params=(), headers=(),
-                      body=EmptyAsyncIterator, body_args=(), body_kwargs=()):
+                      body=empty_async_iterator, body_args=(), body_kwargs=()):
 
         body_hash = hashlib.sha256()
         chunks = []
