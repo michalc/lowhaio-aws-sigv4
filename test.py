@@ -26,6 +26,36 @@ class TestIntegration(unittest.TestCase):
         self.addCleanup(loop.run_until_complete, coroutine(*args))
 
     @async_test
+    async def test_small_signed_put_then_get(self):
+        request, _ = Pool()
+
+        async def credentials():
+            return os.environ['AWS_ACCESS_KEY_ID'], os.environ['AWS_SECRET_ACCESS_KEY'], ()
+
+        data = [b'abcdefghij']
+
+        async def body():
+            for chunk in data:
+                yield chunk
+
+        signed_request = signed(
+            request, credentials=credentials, service='s3', region='eu-west-1',
+        )
+        code, _, body = await signed_request(
+            b'PUT', 'https://s3-eu-west-1.amazonaws.com/lowhaio/test', body=body)
+        body_bytes = await buffered(body)
+
+        self.assertEqual(code, b'200')
+        self.assertEqual(body_bytes, b'')
+
+        code, _, body = await signed_request(
+            b'GET', 'https://s3-eu-west-1.amazonaws.com/lowhaio/test')
+        body_bytes = await buffered(body)
+
+        self.assertEqual(code, b'200')
+        self.assertEqual(body_bytes, b''.join(data))
+
+    @async_test
     async def test_signed_put_then_get(self):
         request, _ = Pool()
 
